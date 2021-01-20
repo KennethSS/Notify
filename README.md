@@ -22,7 +22,7 @@ allprojects {
 
 ```gradle
 dependencies {
-  implementation 'com.github.KennethSS:notify:1.0.0'
+  implementation 'com.github.kennethss:notify:1.0.0'
 }
 ```
 
