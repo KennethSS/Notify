@@ -1,6 +1,10 @@
 package com.solar.notify
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.os.Build
 
 /**
  * Copyright 2020 Kenneth
@@ -18,43 +22,46 @@ import android.content.Context
  * limitations under the License.
  *
  **/
-class Notify internal constructor(internal val context: Context){
-
-
-    var iconRes: Int = 0
+class Notify {
 
     var content: NotifyContent? = null
+    var iconRes: Int = 0
+    var appName: String = ""
 
-    fun notify(type: NotifyContent): Notify {
-        this.content = type
-        return this
-    }
-
-    @JvmName("setIconRes1")
-    fun setIconRes(iconRes: Int) : Notify {
-        this.iconRes = iconRes
-        return this
-    }
-
-    fun show() {
-        content?.let {
-            when(it) {
-                is NotifyContent.Standard -> {
-                    NotificationFactory.notifyNormal(context, iconRes, it.title, it.text)
-                }
-            }
+    fun show(context: Context) {
+        content?.let { content ->
+            notify(context, NotifyFactory(context, NotifyOptions.channelId).getNotifyBuilder(content))
         }
     }
 
+    private fun notify(context: Context, notification: Notification) {
+        val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    fun getNormalContent() = also {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                NotifyOptions.channelId,
+                NotifyOptions.channelName,
+                NotificationManager.IMPORTANCE_HIGH).apply {
 
+                description = NotifyOptions.channelDesc
+                //enableLights(true)
+                //enableVibration(true)
+                //lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+                //lightColor = Color.GREEN
+                //vibrationPattern = longArrayOf(100, 200, 100, 200)
+                //setShowBadge(true)
+            }
+
+            nm.createNotificationChannel(notificationChannel)
+        }
+
+        nm.notify(Util.getRandomInt(), notification)
     }
 
-
     companion object {
-        fun with(context: Context): Notify {
-            return Notify(context)
+        fun with(init: NotifyBuilder.() -> Unit): NotifyBuilder {
+            return NotifyBuilder(init)
         }
     }
 }
+

@@ -1,6 +1,6 @@
 package com.solar.notify
 
-import android.app.usage.NetworkStats
+import android.graphics.Bitmap
 
 /**
  * Copyright 2020 Kenneth
@@ -21,7 +21,23 @@ import android.app.usage.NetworkStats
 sealed class NotifyContent {
 
     data class Standard(
-        val title: String = "",
-        val text: String = ""
-    ) : NotifyContent()
+        override var title: String = "",
+        override var text: String = ""
+    ) : NotifyContent(), BasicNotify
+
+    data class BigText(
+            override var title: String = "",
+            override var text: String = ""
+    ) : NotifyContent(), BasicNotify
+
+    data class BigPicture(
+        override var title: String = "",
+        override var text: String = "",
+        var bitmap: Bitmap? = null
+    ) : NotifyContent(), BasicNotify
+
+    interface BasicNotify {
+        var title: String
+        var text: String
+    }
 }

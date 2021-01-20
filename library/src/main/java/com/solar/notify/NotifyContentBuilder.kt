@@ -16,8 +16,13 @@ package com.solar.notify
  * limitations under the License.
  *
  **/
-enum class NotifyType {
-    NORMAL,
-    BIG_TEXT,
-    BIG_IMAGE
+class NotifyContentBuilder {
+
+    fun standard(init: NotifyContent.Standard.() -> Unit): NotifyContent {
+        return NotifyContent.Standard().also(init)
+    }
+
+    fun bigText(init: NotifyContent.BigText.() -> Unit): NotifyContent {
+        return NotifyContent.BigText().also(init)
+    }
 }
