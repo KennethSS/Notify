@@ -31,15 +31,14 @@ dependencies {
 ### Basic Example
 ```kotlin
 val notify = Notify.with {
-                iconRes { R.mipmap.ic_launcher }
-                appName { "AppName" }
-                content {
-                    standard {
-                        title = "This is title text"
-                        text = "Lorem ipsum dolor sit amet, consectetur adipisicing el.."
-                    }
-                }
-
-            }
-            notify.build().show(this)
+    iconRes { R.mipmap.ic_launcher }
+    appName { "AppName" }
+    content {
+        standard {
+            title = "This is title text"
+            text = "Lorem ipsum dolor sit amet, consectetur adipisicing el.."
+        }
+    }
+}
+notify.build().show(this)
 ```
