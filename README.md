@@ -42,3 +42,5 @@ val notify = Notify.with {
 }
 notify.build().show(this)
 ```
+
+<img src="https://files.readme.io/3c2fb44-android-notification-layouts.png" align="left" width="30%"></img>
